@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Requests\RegisterRequest;
 use App\Mail\Register;
 use App\Mail\RegisterM;
+use App\Notifications\RegisterNotify;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -24,7 +25,9 @@ class RegistersController extends Controller
 
          $user = User::create($request->all());
 
-         \Mail::to($user)->send(new RegisterM($user));
+//          \Mail::to($user)->send(new RegisterM($user));
+
+        $user->notify(new RegisterNotify());
 
          return redirect()->route('login');
     }
